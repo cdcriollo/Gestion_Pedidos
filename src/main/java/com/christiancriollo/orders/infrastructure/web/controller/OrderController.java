@@ -6,6 +6,10 @@ import com.christiancriollo.orders.infrastructure.web.request.CreateOrderRequest
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import com.christiancriollo.orders.application.usecase.CancelOrderUseCase;
+import com.christiancriollo.orders.application.usecase.ConfirmOrderUseCase;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/orders")
@@ -13,13 +17,20 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     private final CreateOrderUseCase createOrderUseCase;
     private final OrderRequestMapper mapper;
+    private final ConfirmOrderUseCase confirmOrderUseCase;
+    private final CancelOrderUseCase cancelOrderUseCase;
 
     public OrderController(
             CreateOrderUseCase createOrderUseCase,
-            OrderRequestMapper mapper) {
+            OrderRequestMapper mapper,
+            ConfirmOrderUseCase confirmOrderUseCase,
+            CancelOrderUseCase cancelOrderUseCase) 
+            {
 
         this.createOrderUseCase = createOrderUseCase;
         this.mapper = mapper;
+        this.confirmOrderUseCase = confirmOrderUseCase;
+        this.cancelOrderUseCase = cancelOrderUseCase;
     }
 
     @PostMapping
@@ -30,6 +41,20 @@ public class OrderController {
         return createOrderUseCase.execute(
                 mapper.toCommand(request)
         );
+    }
+
+    @PostMapping("/{orderId}/confirm")
+    public OrderResponse confirmOrder(
+            @PathVariable UUID orderId) {
+
+        return confirmOrderUseCase.execute(orderId);
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    public OrderResponse cancelOrder(
+            @PathVariable UUID orderId) {
+
+        return cancelOrderUseCase.execute(orderId);
     }
 
 }

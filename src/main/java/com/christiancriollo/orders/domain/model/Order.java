@@ -51,7 +51,7 @@ public class Order {
     public void cancel() {
 
         if (status == OrderStatus.CONFIRMED) {
-            throw new BusinessException("Una orden cancelada no puede ser confirmada.");
+            throw new BusinessException("Una orden confirmada no puede ser cancelada.");
         }
 
         if (status == OrderStatus.CANCELLED) {

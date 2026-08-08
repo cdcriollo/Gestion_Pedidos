@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.christiancriollo.orders.application.usecase.CancelOrderUseCase;
 import com.christiancriollo.orders.application.usecase.ConfirmOrderUseCase;
-
+import com.christiancriollo.orders.application.usecase.GetOrderUseCase;
 import java.util.UUID;
 
 @RestController
@@ -19,18 +19,21 @@ public class OrderController {
     private final OrderRequestMapper mapper;
     private final ConfirmOrderUseCase confirmOrderUseCase;
     private final CancelOrderUseCase cancelOrderUseCase;
+    private final GetOrderUseCase getOrderUseCase;
 
     public OrderController(
             CreateOrderUseCase createOrderUseCase,
             OrderRequestMapper mapper,
             ConfirmOrderUseCase confirmOrderUseCase,
-            CancelOrderUseCase cancelOrderUseCase) 
+            CancelOrderUseCase cancelOrderUseCase,
+            GetOrderUseCase getOrderUseCase) 
             {
 
         this.createOrderUseCase = createOrderUseCase;
         this.mapper = mapper;
         this.confirmOrderUseCase = confirmOrderUseCase;
         this.cancelOrderUseCase = cancelOrderUseCase;
+        this.getOrderUseCase = getOrderUseCase;
     }
 
     @PostMapping
@@ -55,6 +58,13 @@ public class OrderController {
             @PathVariable UUID orderId) {
 
         return cancelOrderUseCase.execute(orderId);
+    }
+
+     @GetMapping("/{orderId}")
+    public OrderResponse getOrder(
+            @PathVariable UUID orderId) {
+
+        return getOrderUseCase.execute(orderId);
     }
 
 }

@@ -1,0 +1,38 @@
+
+body {
+    background-color: #f5f6f8;
+}
+
+.card {
+    border: none;
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 600;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+#orderResult dd {
+    word-break: break-word;
+}
+
+#resultStatus {
+    font-size: 0.85rem;
+}
+
+.alert {
+    margin-bottom: 1.5rem;
+}
+
+button {
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
